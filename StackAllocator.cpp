@@ -25,7 +25,7 @@ void* StackAllocator::allocate(U32 bytesToAllocate) {
   Marker addrStart = mCurrentMarker;
   mCurrentMarker += bytesToAllocate;
 
-  return (void*) addrStart;
+  return reinterpret_cast<void*>(addrStart);
 }
 
 void StackAllocator::freeToMarker(Marker marker) {
