@@ -1,6 +1,6 @@
-#include "common.h"
-
 #pragma once
+
+#include "common.h"
 
 // Stack Allocator based on a header file template provided in
 // Game Engine Architecture - Jason Gregory
