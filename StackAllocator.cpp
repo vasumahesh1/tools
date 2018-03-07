@@ -12,18 +12,17 @@ StackAllocator::~StackAllocator() {
 }
 
 void* StackAllocator::allocate(U32 bytesToAllocate) {
-  if (bytesToAllocate > mSize) {
-    return nullptr;
+  Marker addrStart = 0;
+
+  if (bytesToAllocate <= mSize) {
+    U32 availableBytes = mSize - static_cast<U32>(mCurrentMarker - mBaseMarker);
+
+    if (bytesToAllocate <= availableBytes) {
+
+      addrStart = mCurrentMarker;
+      mCurrentMarker += bytesToAllocate;
+    }
   }
-
-  U32 availableBytes = mSize - static_cast<U32>(mCurrentMarker - mBaseMarker);
-
-  if (bytesToAllocate > availableBytes) {
-    return nullptr;
-  }
-
-  Marker addrStart = mCurrentMarker;
-  mCurrentMarker += bytesToAllocate;
 
   return reinterpret_cast<void*>(addrStart);
 }
