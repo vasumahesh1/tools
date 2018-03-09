@@ -1,43 +1,39 @@
-#include <iostream>
-#include "UnitTest++/UnitTest++.h"
+#include "StackAllocator_test.h"
 
-#include "common.h"
-#include "StackAllocator.h"
-
-TEST(Constructs) {
+TEST(StackAllocatorTest, Constructs) {
   StackAllocator target = StackAllocator(64);
   target.clear();
 }
 
-TEST(NormalAllocation) {
+TEST(StackAllocatorTest, NormalAllocation) {
   StackAllocator target = StackAllocator(64);
   void* bytePtr = target.allocate(32);
-  CHECK(bytePtr != nullptr);
+  ASSERT_NE(bytePtr, nullptr);
   target.clear();
 }
 
-TEST(OverflowAllocation1) {
+TEST(StackAllocatorTest, OverflowAllocation1) {
   StackAllocator target = StackAllocator(64);
   void* bytePtr = target.allocate(32);
   bytePtr = target.allocate(33);
-  CHECK(bytePtr == nullptr);
+  ASSERT_EQ(bytePtr, nullptr);
 }
 
-TEST(OverflowAllocation2) {
+TEST(StackAllocatorTest, OverflowAllocation2) {
   StackAllocator target = StackAllocator(64);
   void* bytePtr = target.allocate(32);
   bytePtr = target.allocate(32);
   bytePtr = target.allocate(32);
-  CHECK(bytePtr == nullptr);
+  ASSERT_EQ(bytePtr, nullptr);
 }
 
-TEST(OverflowAllocation3) {
+TEST(StackAllocatorTest, OverflowAllocation3) {
   StackAllocator target = StackAllocator(64);
   void* bytePtr = target.allocate(128);
-  CHECK(bytePtr == nullptr);
+  ASSERT_EQ(bytePtr, nullptr);
 }
 
-TEST(FreeMemory1) {
+TEST(StackAllocatorTest, FreeMemory1) {
   StackAllocator target = StackAllocator(64);
   void* bytePtr = target.allocate(16);
   UPTR marker = target.getMarker();
@@ -47,19 +43,15 @@ TEST(FreeMemory1) {
 
   target.freeToMarker(marker);
 
-  CHECK(marker == target.getMarker());
+  ASSERT_EQ(marker, target.getMarker());
 }
 
-TEST(ClearTest1) {
+TEST(StackAllocatorTest, ClearTest1) {
   StackAllocator target = StackAllocator(64);
   UPTR marker = target.getMarker();
 
   void* bytePtr = target.allocate(64);
   target.clear();
-  CHECK(marker == target.getMarker());
-}
-
-int main(int, const char *[]) {
-  return UnitTest::RunAllTests();
+  ASSERT_EQ(marker, target.getMarker());
 }
 

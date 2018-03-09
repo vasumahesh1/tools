@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.2)
+cmake_minimum_required (VERSION 3.2 FATAL_ERROR)
 
 project (EngineTools)
 
@@ -16,5 +16,5 @@ include_directories("${PROJECT_BINARY_DIR}")
 add_library(
   EngineTools
   STATIC
-  MemoryAllocators/StackAllocator.cpp
+  "${PROJECT_SOURCE_DIR}/MemoryAllocators/StackAllocator.cpp"
 )
