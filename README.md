@@ -1,5 +1,7 @@
 ## Tools in C++
 
+[![Build Status](https://travis-ci.org/vasumahesh1/tools.svg?branch=master)](https://travis-ci.org/vasumahesh1/tools)
+
 An array of tools that I am making as a part of learning various game engine architectures.
 
 ### Includes
