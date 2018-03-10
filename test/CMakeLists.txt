@@ -40,6 +40,7 @@ add_executable(
   EngineToolsTest
   test.cpp
   StackAllocator_test.cpp
+  PoolAllocator_test.cpp
 )
 
 link_directories("${CMAKE_BINARY_DIR}/src/")

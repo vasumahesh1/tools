@@ -17,4 +17,5 @@ add_library(
   EngineTools
   STATIC
   "${PROJECT_SOURCE_DIR}/MemoryAllocators/StackAllocator.cpp"
+  "${PROJECT_SOURCE_DIR}/MemoryAllocators/PoolAllocator.cpp"
 )

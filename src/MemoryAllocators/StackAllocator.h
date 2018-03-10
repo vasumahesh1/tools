@@ -6,7 +6,7 @@
 // Game Engine Architecture - Jason Gregory
 class StackAllocator {
   public:
-    typedef UPTR Marker;
+    using Marker = UPTR;
 
     // Allocates a pool of memory for the stack to use
     explicit StackAllocator(U32 stackSizeInBytes);
