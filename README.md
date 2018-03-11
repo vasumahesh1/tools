@@ -29,7 +29,7 @@ ctest
 
 #### Windows
 
-Make sure you launch using the Cross Tools for VS. I built in on VS2017.
+Make sure you launch using the Cross Tools for VS. I built it on VS2017.
 
 ```batch
 cd scripts
