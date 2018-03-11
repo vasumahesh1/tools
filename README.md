@@ -9,7 +9,7 @@ An array of tools that I am making as a part of learning various game engine arc
 - **StackAllocator**
   A Stack based memory allocator.
 
-- **PoolAllocator<T>**
+- **PoolAllocator\<T\>**
   A Pool based memory allocator for any datatype T.
 
 For now you can see the `tests/` to see how they are implemented.
@@ -18,11 +18,22 @@ For now you can see the `tests/` to see how they are implemented.
 
 I use [GoogleTest](https://github.com/google/googletest) to test the code and C++14 to compile them. To run this on your system, you need CMake.
 
-Execute these to run tests:
+#### Linux / OSX
+
+Execute these to build & run tests:
 ```bash
 cd build
 cmake .. && make
 ctest
+```
+
+#### Windows
+
+Make sure you launch using the Cross Tools for VS. I built in on VS2017.
+
+```batch
+cd scripts
+BuildDebug_Win32.bat
 ```
 
 

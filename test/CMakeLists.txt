@@ -47,7 +47,12 @@ link_directories("${CMAKE_BINARY_DIR}/src/")
 include_directories("${CMAKE_BINARY_DIR}/src/")
 include_directories("${CMAKE_SOURCE_DIR}/src/")
 
-target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/libEngineTools.a")
+if (WIN32)
+  target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/Debug/EngineTools.lib")
+else()
+  target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/libEngineTools.a")
+endif()
+
 target_link_libraries(EngineToolsTest gtest_main)
 
 add_test (UnitTests EngineToolsTest)
