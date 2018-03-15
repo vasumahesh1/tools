@@ -7,10 +7,20 @@ An array of tools that I am making as a part of learning various game engine arc
 ### Includes
 
 - **StackAllocator**
+
   A Stack based memory allocator.
 
 - **PoolAllocator\<T\>**
+
   A Pool based memory allocator for any datatype T.
+
+- **FNVHashOperator**
+
+  A FNV1A Hashing Implementation.
+
+- **HashMap\<K, V\>**
+
+  A HashMap that uses a FNV1A Hash (Can have a custom `HashOperator` if needed) chaining. Also, uses a `PoolAllocator` for allocating the LinkedList if needed for chaining.
 
 For now you can see the `tests/` to see how they are implemented.
 

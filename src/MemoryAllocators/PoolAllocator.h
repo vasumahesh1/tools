@@ -4,86 +4,88 @@
 #include <iostream>
 #include "common.h"
 
-template<typename T>
-struct PoolNode {
-  T mData;
-  PoolNode* pNext{nullptr};
-};
+namespace EngineTools {
+  template<typename T>
+    struct PoolNode {
+      T mData;
+      PoolNode* pNext{nullptr};
+    };
 
-template<typename T>
-class PoolAllocator {
-  using Node = PoolNode<T>;
-  public:
-  PoolAllocator(U32 totalElements);
-  ~PoolAllocator();
+  template<typename T>
+    class PoolAllocator {
+      using Node = PoolNode<T>;
+      public:
+      PoolAllocator(U32 totalElements);
+      ~PoolAllocator();
 
-  T* allocate();
-  void deallocate(T* data);
+      T* allocate();
+      void deallocate(T* data);
 
-  private:
-  U32 mCount;
-  Node* pHead;
-  Node* pTail;
-  void* pMemory;
-};
+      private:
+      U32 mCount;
+      Node* pHead;
+      Node* pTail;
+      void* pMemory;
+    };
 
 
-template<typename T>
-PoolAllocator<T>::PoolAllocator(U32 totalElements) : mCount(totalElements) {
-  pMemory = malloc(sizeof(Node) * mCount);
-  pHead = (Node*) pMemory;
+  template<typename T>
+    PoolAllocator<T>::PoolAllocator(U32 totalElements) : mCount(totalElements) {
+      pMemory = malloc(sizeof(Node) * mCount);
+      pHead = (Node*) pMemory;
 
-  Node* itr = pHead;
-  Node* prev = nullptr;
+      Node* itr = pHead;
+      Node* prev = nullptr;
 
-  // Form Initial Links between Nodes
-  for (int i = 0; i < mCount; i++) {
-    itr->pNext = nullptr;
+      // Form Initial Links between Nodes
+      for (int i = 0; i < mCount; i++) {
+        itr->pNext = nullptr;
 
-    if (prev != nullptr) {
-      prev->pNext = itr;
+        if (prev != nullptr) {
+          prev->pNext = itr;
+        }
+
+        prev = itr;
+        itr++;
+      }
+
+      pTail = prev;
     }
 
-    prev = itr;
-    itr++;
-  }
-
-  pTail = prev;
-}
-
-template<typename T>
-PoolAllocator<T>::~PoolAllocator() {
-  free(pMemory);
-}
-
-template<typename T>
-T* PoolAllocator<T>::allocate() {
-  T* result = nullptr;
-  if (pHead != nullptr) {
-    result = reinterpret_cast<T*>(pHead);
-
-    auto oldNode = pHead;
-    pHead = pHead->pNext;
-    oldNode->pNext = nullptr;
-
-    if (pHead == nullptr) {
-      pTail = nullptr;
+  template<typename T>
+    PoolAllocator<T>::~PoolAllocator() {
+      free(pMemory);
     }
-  }
 
-  return result;
-}
+  template<typename T>
+    T* PoolAllocator<T>::allocate() {
+      T* result = nullptr;
+      if (pHead != nullptr) {
+        result = reinterpret_cast<T*>(pHead);
+
+        auto oldNode = pHead;
+        pHead = pHead->pNext;
+        oldNode->pNext = nullptr;
+
+        if (pHead == nullptr) {
+          pTail = nullptr;
+        }
+      }
+
+      return result;
+    }
 
 
-template<typename T>
-void PoolAllocator<T>::deallocate(T* data) {
-  Node* node = reinterpret_cast<Node*>(data);
-  if (pTail != nullptr) {
-    pTail->pNext = node;
-  } else {
-    pHead = node;
-  }
+  template<typename T>
+    void PoolAllocator<T>::deallocate(T* data) {
+      Node* node = reinterpret_cast<Node*>(data);
+      if (pTail != nullptr) {
+        pTail->pNext = node;
+      } else {
+        pHead = node;
+      }
 
-  pTail = node;
-}
+      pTail = node;
+    }
 
+};

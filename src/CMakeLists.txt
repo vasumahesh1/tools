@@ -18,4 +18,6 @@ add_library(
   STATIC
   "${PROJECT_SOURCE_DIR}/MemoryAllocators/StackAllocator.cpp"
   "${PROJECT_SOURCE_DIR}/MemoryAllocators/PoolAllocator.cpp"
+  "${PROJECT_SOURCE_DIR}/Utils/Hash.cpp"
+  "${PROJECT_SOURCE_DIR}/Containers/HashMap.h"
 )

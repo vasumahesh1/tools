@@ -41,6 +41,8 @@ add_executable(
   test.cpp
   StackAllocator_test.cpp
   PoolAllocator_test.cpp
+  Hash_test.cpp
+  HashMap_test.cpp
 )
 
 link_directories("${CMAKE_BINARY_DIR}/src/")
