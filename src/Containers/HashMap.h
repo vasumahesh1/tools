@@ -79,6 +79,7 @@ namespace EngineTools {
       return result;
     }
 
+  // TODO: Need better template overloading for the Keys
   template <typename Key, typename Value, int BUCKETS>
     U32 HashMap<Key, Value, BUCKETS>::generateHash(int key) {
       return mHashOp.evaluate(key);
