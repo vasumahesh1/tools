@@ -3,10 +3,9 @@
 #include "ToolsCore.h"
 #include "Allocator.h"
 #include <cstdlib>
-
-#if defined(WIN32) || defined(_WIN32)
 #include <malloc.h>
 
+#if defined(WIN32) || defined(_WIN32)
 #define ALIGNED_ALLOC(alignment, size) \
   _aligned_malloc(size, alignment)
 
@@ -14,8 +13,6 @@
   _aligned_free(ptr)
 
 #elif defined(APPLE) || defined(UNIX) || defined(__linux__)
-#include <malloc.h>
-
 #define ALIGNED_ALLOC(alignment, size) \
   memalign(alignment, size)
 
@@ -36,9 +33,10 @@ namespace EngineTools {
 
     // Disable Copy & Move
     MonotonicAllocator(const MonotonicAllocator& other) = delete;
-    MonotonicAllocator(MonotonicAllocator&& other) noexcept = delete;
     MonotonicAllocator& operator=(const MonotonicAllocator& other) = delete;
-    MonotonicAllocator& operator=(MonotonicAllocator&& other) noexcept = delete;
+
+    MonotonicAllocator(MonotonicAllocator&& other) noexcept = default;
+    MonotonicAllocator& operator=(MonotonicAllocator&& other) noexcept = default;
 
     /**
      * \brief Allocates a set number of bytes

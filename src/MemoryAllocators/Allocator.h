@@ -11,9 +11,10 @@ namespace EngineTools {
     virtual ~Allocator();
 
     Allocator(const Allocator& other) = delete;
-    Allocator(Allocator&& other) noexcept = delete;
     Allocator& operator=(const Allocator& other) = delete;
-    Allocator& operator=(Allocator&& other) noexcept = delete;
+
+    Allocator(Allocator&& other) noexcept = default;
+    Allocator& operator=(Allocator&& other) noexcept = default;
 
     virtual void* Allocate(SizeType size) = 0;
     virtual void Deallocate(void* address) = 0;
