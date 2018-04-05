@@ -14,6 +14,10 @@ An array of tools that I am making as a part of learning various game engine arc
 
   A Pool based memory allocator for any datatype T.
 
+- **MonotonicAllocator\<alignment\>**
+
+  A Sequential Memory Allocator.
+
 - **FNVHashOperator**
 
   A FNV1A Hashing Implementation.
