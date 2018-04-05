@@ -35,12 +35,14 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
   include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
+add_definitions(-DTOOLS_TEST)
 
 add_executable(
   EngineToolsTest
   test.cpp
   StackAllocator_test.cpp
   PoolAllocator_test.cpp
+  MonotonicAllocator_test.cpp
   Hash_test.cpp
   HashMap_test.cpp
 )

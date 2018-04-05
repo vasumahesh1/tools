@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.h"
+#include "ToolsCore.h"
 
 namespace EngineTools
 {
@@ -19,17 +19,17 @@ public:
 
   // Allocates a block a memory as long as it can fit in the stack
   // else returns nullptr
-  void* allocate(U32 bytesToAllocate);
+  void* Allocate(U32 bytesToAllocate);
 
   // Frees memory till a marker. use getMarker() to get the memory pointer
   // and later free to it when needed
-  void freeToMarker(Marker marker);
+  void FreeToMarker(Marker marker);
 
   // Get the current memory pointer in the stack
-  Marker getMarker() const;
+  Marker GetMarker() const;
 
   // Empty the stack memory
-  void clear();
+  void Clear();
 
 private:
   Marker mCurrentMarker;

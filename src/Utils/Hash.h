@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../common.h"
+#include "ToolsCore.h"
 
 namespace EngineTools {
   class HashOperator {

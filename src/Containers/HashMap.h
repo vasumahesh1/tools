@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../common.h"
-#include "../MemoryAllocators/PoolAllocator.h"
-#include "../Utils/Hash.h"
+#include "ToolsCore.h"
+#include "MemoryAllocators/PoolAllocator.h"
+#include "Utils/Hash.h"
 
 namespace EngineTools {
 
@@ -24,15 +24,15 @@ namespace EngineTools {
       HashMap(PoolAllocator<HashEntryT>* alloc);
       ~HashMap();
 
-      void insert(Key key, Value value);
-      bool get(Key key, Value* value);
-      bool exists(Key key);
+      void Insert(Key key, Value value);
+      bool Get(Key key, Value* value);
+      bool Exists(Key key);
 
       private:
-      U32 generateHash(int key);
-      U32 generateHash(const char* key);
+      U32 GenerateHash(int key);
+      U32 GenerateHash(const char* key);
 
-      HashEntryT* findEntry(Key key);
+      HashEntryT* FindEntry(Key key);
       bool mIsCustomAllocator { false };
       UINT mBuckets { BUCKETS }; // Must be Prime
       UINT mPoolSize{ 128 };
@@ -67,8 +67,8 @@ namespace EngineTools {
     }
 
   template <typename Key, typename Value, int BUCKETS>
-    bool HashMap<Key, Value, BUCKETS>::get(Key key, Value* value) {
-      HashEntryT* entry = findEntry(key);
+    bool HashMap<Key, Value, BUCKETS>::Get(Key key, Value* value) {
+      HashEntryT* entry = FindEntry(key);
       bool result = false;
 
       if (entry != nullptr) {
@@ -81,23 +81,23 @@ namespace EngineTools {
 
   // TODO: Need better template overloading for the Keys
   template <typename Key, typename Value, int BUCKETS>
-    U32 HashMap<Key, Value, BUCKETS>::generateHash(int key) {
+    U32 HashMap<Key, Value, BUCKETS>::GenerateHash(int key) {
       return mHashOp.evaluate(key);
     }
 
   template <typename Key, typename Value, int BUCKETS>
-    U32 HashMap<Key, Value, BUCKETS>::generateHash(const char* key) {
+    U32 HashMap<Key, Value, BUCKETS>::GenerateHash(const char* key) {
       return mHashOp.evaluate(key, strlen(key));
     }
 
   template <typename Key, typename Value, int BUCKETS>
-    bool HashMap<Key, Value, BUCKETS>::exists(Key key) {
-      return findEntry(key) != nullptr;
+    bool HashMap<Key, Value, BUCKETS>::Exists(Key key) {
+      return FindEntry(key) != nullptr;
     }
 
   template <typename Key, typename Value, int BUCKETS>
-    HashEntry<Key, Value>* HashMap<Key, Value, BUCKETS>::findEntry(Key key) {
-      U32 idx = generateHash(key);
+    HashEntry<Key, Value>* HashMap<Key, Value, BUCKETS>::FindEntry(Key key) {
+      U32 idx = GenerateHash(key);
       idx = idx % BUCKETS;
 
       HashEntryT* entry = mData[idx];
@@ -114,8 +114,8 @@ namespace EngineTools {
     }
 
   template <typename Key, typename Value, int BUCKETS>
-    void HashMap<Key, Value, BUCKETS>::insert(Key key, Value value) {
-      U32 idx = generateHash(key);
+    void HashMap<Key, Value, BUCKETS>::Insert(Key key, Value value) {
+      U32 idx = GenerateHash(key);
       idx = idx % BUCKETS;
 
       HashEntryT* prevEntry = nullptr;
