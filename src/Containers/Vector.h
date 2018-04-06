@@ -202,7 +202,7 @@ namespace EngineTools {
     if (idx >= 0) {
       Type* ptr = start + (idx + 1);
 
-      for (int itr = idx + 1; itr < mSize; ++itr) {
+      for (UINT itr = idx + 1; itr < mSize; ++itr) {
         *(ptr - 1) = *ptr;
         ++ptr;
       }
