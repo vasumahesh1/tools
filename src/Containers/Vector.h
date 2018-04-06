@@ -56,11 +56,140 @@ namespace EngineTools {
      */
     void Reserve(UINT maxSize);
 
+    bool IsEmpty() const;
+
+    void InsertAt(UINT idx, const Type& data);
+
     Type& operator[](UINT idx);
     Type& operator[](UINT idx) const;
 
     UINT GetSize() const { return mSize; }
     UINT GetMaxSize() const { return mMaxSize; }
+
+    class Iterator : public std::iterator<std::random_access_iterator_tag, Type> {
+    public:
+      Iterator() = default;
+      ~Iterator() = default;
+      Iterator(const Iterator& other) = default;
+      Iterator& operator=(const Iterator& other) = default;
+
+      Iterator(const Vector* ptr, int index)
+        : mPtr(ptr),
+          mIndex(index) {}
+
+      Iterator(Iterator&& other) noexcept = default;
+      Iterator& operator=(Iterator&& other) noexcept = default;
+
+      // Pre Increment
+      Iterator& operator++() {
+        ++mIndex;
+        return *this;
+      }
+
+      // Post Increment
+      Iterator operator++(int) {
+        Iterator copy(*this);
+        operator++();
+        return copy;
+      }
+
+      // Pre Decrement
+      Iterator& operator--() {
+        --mIndex;
+        return *this;
+      }
+
+      // Post Decrement
+      Iterator operator--(int) {
+        Iterator copy(*this);
+        operator--();
+        return copy;
+      }
+
+      bool operator==(const Iterator& rhs) {
+        return mPtr == rhs.mPtr && mIndex == rhs.mIndex;
+      }
+
+      bool operator!=(const Iterator& rhs) {
+        return !(*this == rhs);
+      }
+
+      bool operator<(const Iterator& rhs) {
+        assert(mPtr == rhs.mPtr);
+        return mIndex < rhs.mIndex;
+      }
+
+      bool operator<=(const Iterator& rhs) {
+        assert(mPtr == rhs.mPtr);
+        return mIndex <= rhs.mIndex;
+      }
+
+      bool operator>(const Iterator& rhs) {
+        assert(mPtr == rhs.mPtr);
+        return mIndex > rhs.mIndex;
+      }
+
+      bool operator>=(const Iterator& rhs) {
+        assert(mPtr == rhs.mPtr);
+        return mIndex >= rhs.mIndex;
+      }
+
+      Iterator operator+(const int& idx) {
+        return Iterator(mPtr, mIndex + idx);
+      }
+
+      Iterator& operator+=(const int& idx) {
+        mIndex += idx;
+        return *this;
+      }
+
+      Iterator operator-(const int& idx) {
+        assert(mIndex - idx > 0);
+        return Iterator(mPtr, mIndex - idx);
+      }
+
+      Iterator& operator-=(const int& idx) {
+        assert(mIndex - idx > 0);
+        mIndex -= idx;
+        return *this;
+      }
+
+      int operator-(const Iterator& rhs) {
+        assert(mPtr == rhs.mPtr);
+        return mIndex - rhs.mIndex;
+      }
+
+      friend int operator-(const Iterator& lhs, const Iterator& rhs) {
+        Iterator copy(lhs);
+        return copy - rhs;
+      }
+
+      // Element Accessors
+
+      Type& operator*() {
+        return mPtr->operator[](mIndex);
+      }
+
+      Type* operator->() {
+        return &mPtr->operator[](mIndex);
+      }
+
+      Type& operator[](const int& idx) {
+        return mPtr->operator[](mIndex + idx);
+      }
+
+    private:
+      const Vector* mPtr{nullptr};
+      int mIndex{-1};
+    };
+
+    Iterator Begin() const;
+    Iterator End() const;
+
+#ifdef TOOLS_TEST
+    Type* GetBackPtr() const { return mBack; };
+    Type* GetBasePtr() const { return mBase; };
+#endif
 
   private:
     UINT mSize{0};
@@ -203,10 +332,11 @@ namespace EngineTools {
       Type* ptr = start + (idx + 1);
 
       for (UINT itr = idx + 1; itr < mSize; ++itr) {
-        *(ptr - 1) = *ptr;
+        *(ptr - 1)  = *ptr;
         ++ptr;
       }
 
+      --mBack;
       --mSize;
     }
   }
@@ -215,6 +345,25 @@ namespace EngineTools {
   void Vector<Type>::Reserve(UINT maxSize) {
     mMaxSize = maxSize;
     mBase    = mAlloc->NewObjects<Type>(maxSize, false);
+  }
+
+  template <typename Type>
+  bool Vector<Type>::IsEmpty() const {
+    return mSize == 0;
+  }
+
+  template <typename Type>
+  void Vector<Type>::InsertAt(UINT idx, const Type& data) {
+    assert(idx >= 0 && idx <= mSize);
+
+    Type* ptr = mBack;
+
+    for (int i = mSize; i > idx; i--) {
+      *ptr     = *(ptr - 1);
+      --ptr;
+    }
+
+    *(mBase + idx) = data;
   }
 
   template <typename Type>
@@ -227,5 +376,15 @@ namespace EngineTools {
   Type& Vector<Type>::operator[](const UINT idx) const {
     assert(idx < mSize);
     return *(mBase + idx);
+  }
+
+  template <typename Type>
+  typename Vector<Type>::Iterator Vector<Type>::Begin() const {
+    return Iterator(this, 0);
+  }
+
+  template <typename Type>
+  typename Vector<Type>::Iterator Vector<Type>::End() const {
+    return Iterator(this, mSize);
   }
 }

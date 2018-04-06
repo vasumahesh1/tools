@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../src/Containers/Vector.h"
 #include "MemoryAllocators/MonotonicAllocator.h"
+#include <algorithm>
 
 using namespace std;
 using namespace EngineTools;
@@ -28,20 +29,26 @@ int main() {
   MonotonicAllocator<16> alloc{ 4 };
   Vector<int> v{ 16, &alloc };
 
-  cout << v.GetSize() << endl;
+  //cout << v.GetSize() << endl;
 
-  v.Push(10);
-  v.Push(20);
-  v.Push(30);
   v.Push(40);
+  v.Push(20);
+  v.Push(10);
+  v.Push(30);
 
-  cout << "Idx: " << v.Find(20) << endl;
-  v.Remove(20);
+  //cout << "Idx: " << v.Find(20) << endl;
+  //v.Remove(20);
 
-  cout << "0: " << v[0] << endl;
-  cout << "1: " << v[1] << endl;
-  cout << "2: " << v[2] << endl;
-  // cout << "3: " << v[3] << endl;
+  std::sort(v.Begin(), v.End());
+
+  for (auto it = v.Begin(); it != v.End(); ++it) {
+    cout << *it << endl;
+  }
+
+  //cout << "0: " << v[0] << endl;
+  //cout << "1: " << v[1] << endl;
+  //cout << "2: " << v[2] << endl;
+  //cout << "3: " << v[3] << endl;
 
   return 0;
 }
