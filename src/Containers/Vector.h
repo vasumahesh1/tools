@@ -9,6 +9,9 @@ namespace EngineTools {
   template <typename Type>
   class Vector {
   public:
+    Vector() = default;
+    explicit Vector(Allocator* alloc);
+
     // TODO: Enable When NewDeleteAllocator is ready
     //explicit Vector(UINT maxSize);
     Vector(UINT maxSize, Allocator* alloc);
@@ -21,10 +24,37 @@ namespace EngineTools {
     Vector& operator=(const Vector& other);
     Vector& operator=(Vector&& other) noexcept;
 
+    /**
+     * \brief Appends data to the end of the vector
+     * \param data Data to push
+     */
     void Push(const Type& data);
+
+    /**
+     * \brief Removes the last element in the vector array
+     * \return Element that was popped
+     */
     Type Pop();
+
+    /**
+     * \brief Searches for the data in the Vector
+     * \param data Data to search for
+     * \return Index if Found, else -1
+     */
     int Find(const Type& data);
+
+    /**
+     * \brief Searches for the given data in the vector and removes it
+     * \param data Data to Search for and Remove
+     */
     void Remove(const Type& data);
+
+    /**
+     * \brief Reserves a max contiguous block for the vector
+     * Use only when you didn't supply a maxSize in the constructor.
+     * \param maxSize Maxium Possible Size
+     */
+    void Reserve(UINT maxSize);
 
     Type& operator[](UINT idx);
     Type& operator[](UINT idx) const;
@@ -45,6 +75,10 @@ namespace EngineTools {
   //Vector<Type>::Vector(const UINT maxSize) : mMaxSize(maxSize), mAlloc(alloc), mBase(mAlloc->NewObjects<Type>(maxSize)) {}
 
   template <typename Type>
+  Vector<Type>::Vector(Allocator* alloc)
+    : mAlloc(alloc) {}
+
+  template <typename Type>
   Vector<Type>::Vector(const UINT maxSize, Allocator* alloc)
     : mMaxSize(maxSize),
       mAlloc(alloc),
@@ -53,8 +87,9 @@ namespace EngineTools {
 
   template <typename Type>
   Vector<Type>::~Vector() {
-    // TODO: should we check for mAlloc being null? Due to Move?
-    mAlloc->DeleteObjects(mBase, mMaxSize);
+    if (mAlloc) {
+      mAlloc->DeleteObjects(mBase, mMaxSize);
+    }
   }
 
   template <typename Type>
@@ -85,8 +120,10 @@ namespace EngineTools {
 
   template <typename Type>
   Vector<Type>& Vector<Type>::operator=(const Vector& other) {
-    if (this == &other)
+    if (this == &other) {
       return *this;
+    }
+
     mSize    = other.mSize;
     mMaxSize = other.mMaxSize;
     mAlloc   = other.mAlloc;
@@ -103,8 +140,10 @@ namespace EngineTools {
 
   template <typename Type>
   Vector<Type>& Vector<Type>::operator=(Vector&& other) noexcept {
-    if (this == &other)
+    if (this == &other) {
       return *this;
+    }
+
     mSize    = other.mSize;
     mMaxSize = other.mMaxSize;
     mAlloc   = other.mAlloc;
@@ -143,7 +182,7 @@ namespace EngineTools {
 
     int idx = -1;
 
-    for (auto itr = 0; itr < mSize; ++itr) {
+    for (UINT itr = 0; itr < mSize; ++itr) {
       if (data == *start) {
         idx = itr;
         break;
@@ -170,6 +209,12 @@ namespace EngineTools {
 
       --mSize;
     }
+  }
+
+  template <typename Type>
+  void Vector<Type>::Reserve(UINT maxSize) {
+    mMaxSize = maxSize;
+    mBase    = mAlloc->NewObjects<Type>(maxSize, false);
   }
 
   template <typename Type>
