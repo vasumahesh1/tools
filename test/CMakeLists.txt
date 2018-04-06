@@ -45,6 +45,7 @@ add_executable(
   MonotonicAllocator_test.cpp
   Hash_test.cpp
   HashMap_test.cpp
+  Vector_test.cpp
 )
 
 link_directories("${CMAKE_BINARY_DIR}/src/")

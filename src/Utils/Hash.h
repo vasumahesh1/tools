@@ -3,6 +3,21 @@
 #include "ToolsCore.h"
 
 namespace EngineTools {
+  constexpr U32 DEFAULT_SEED{ 2166136261 };
+  constexpr U32 DEFAULT_PRIME{ 0x01000193 };
+
+  inline constexpr U32 FNVHash(const void* bytes, UINT numBytes, U32 seed, U32 prime) {
+    const auto* ptr = static_cast<const unsigned char*>(bytes);
+
+    U32 hashValue = seed;
+
+    for (int itr = 0; itr < numBytes; itr++) {
+      hashValue = (ptr[itr] ^ hashValue) * prime;
+    }
+
+    return hashValue;
+  }
+
   class HashOperator {
     public:
       HashOperator() = default;

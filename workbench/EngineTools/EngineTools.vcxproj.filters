@@ -50,6 +50,9 @@
     <ClInclude Include="..\..\src\MemoryAllocators\Allocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Containers\Vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\ToolsCore.h.in" />

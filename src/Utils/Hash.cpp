@@ -11,15 +11,7 @@ namespace EngineTools {
   }
 
   U32 FNVHashOperator::evaluate(const void* bytes, UINT numBytes) const {
-    const unsigned char* ptr = (const unsigned char*) bytes;
-
-    U32 hashValue = mSeed;
-
-    for (int itr = 0 ; itr < numBytes; itr++) {
-      hashValue = (ptr[itr] ^ hashValue) * mPrime;
-    }
-
-    return hashValue;
+    return FNVHash(bytes, numBytes, mSeed, mPrime);
   }
 
   U32 FNVHashOperator::evaluate(const char* bytes, UINT len) const {

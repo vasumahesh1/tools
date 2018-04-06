@@ -18,13 +18,17 @@ An array of tools that I am making as a part of learning various game engine arc
 
   A Sequential Memory Allocator.
 
-- **FNVHashOperator**
+- **FNVHashOperator** or **FNVHash**
 
-  A FNV1A Hashing Implementation.
+  A FNV1A Hashing Implementation. A `constexpr` implementation.
 
 - **HashMap\<K, V\>**
 
   A HashMap that uses a FNV1A Hash (Can have a custom `HashOperator` if needed) chaining. Also, uses a `PoolAllocator` for allocating the LinkedList if needed for chaining.
+
+- **Vector\<T\>**
+  
+  A Vector that uses a custom `Allocator` for allocating and deallocating objects. C++17 does offer a pmr allocator (polymorphic allocator) allowing us to create a std::vector with a custom allocator (while avoiding the template hell at the same time). But this tool is meant to work with C++11, so I have a minimal implementation of a Vector. Work Pending: Creating a `std::iterator` so we can use standard algorithms (like `std::sort`) on this container.
 
 For now you can see the `tests/` to see how they are implemented.
 

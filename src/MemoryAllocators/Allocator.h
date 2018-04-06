@@ -21,14 +21,20 @@ namespace EngineTools {
     virtual void Reset();
 
     template <class Type>
-    void DeleteObject(const Type* object);
+    void DeleteObject(Type* object);
 
     template <class Type>
-    Type* NewObject();
+    void DeleteObjects(Type* object, UINT count);
+
+    template <class Type>
+    Type* NewObject(bool construct = true);
+
+    template <class Type>
+    Type* NewObjects(UINT count, bool construct = true);
   };
 
   template <class Type>
-  void Allocator::DeleteObject(const Type* object) {
+  void Allocator::DeleteObject(Type* object) {
     // TODO: Figure out Dynamic Type based destruction.
     void* address = static_cast<void*>(object);
     object->~Type();
@@ -36,9 +42,42 @@ namespace EngineTools {
   }
 
   template <class Type>
-  Type* Allocator::NewObject() {
+  void Allocator::DeleteObjects(Type* object, const UINT count) {
+    void* address = static_cast<void*>(object);
+    Type* start = object;
+
+    for (int itr = 0; itr < count; ++itr) {
+      start->~Type();
+      ++start;
+    }
+
+    // TODO: Figure out Deallocate for Arrays
+    Deallocate(address);
+  }
+
+  template <class Type>
+  Type* Allocator::NewObject(bool construct) {
     Type* address = reinterpret_cast<Type*>(Allocate(sizeof(Type)));
-    *address = Type();
+
+    if (construct) {
+      *address = Type();
+    }
+
+    return address;
+  }
+
+  template <class Type>
+  Type* Allocator::NewObjects(const UINT count, bool construct) {
+    Type* address = reinterpret_cast<Type*>(Allocate(count * sizeof(Type)));
+    Type* start   = address;
+
+    if (construct) {
+      for (int itr = 0; itr < count; ++itr) {
+        *start = Type();
+        ++start;
+      }
+    }
+
     return address;
   }
 }

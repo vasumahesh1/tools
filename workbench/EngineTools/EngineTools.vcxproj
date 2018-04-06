@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\Containers\HashMap.h" />
+    <ClInclude Include="..\..\src\Containers\Vector.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\Allocator.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\MonotonicAllocator.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\PoolAllocator.h" />
