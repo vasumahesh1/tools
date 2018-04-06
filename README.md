@@ -28,7 +28,7 @@ An array of tools that I am making as a part of learning various game engine arc
 
 - **Vector\<T\>**
   
-  A Vector that uses a custom `Allocator` for allocating and deallocating objects. C++17 does offer a pmr allocator (polymorphic allocator) allowing us to create a std::vector with a custom allocator (while avoiding the templating issue at the same time). But this tool is meant to work with C++11, so I have a minimal implementation of a Vector. It also includes a `std::iterator` (random access iterator, available as `Vector<Type>::Iterator`), so it can be used with regular std algorithms like `std::sort`.
+  A Vector that uses a custom `Allocator` for allocating and deallocating objects. C++17 does offer a pmr allocator (polymorphic allocator) allowing us to create a std::vector with a custom allocator (while avoiding the templating issue at the same time). But this tool is meant to work with C++14/11, so I have a minimal implementation of a Vector. It also includes a `std::iterator` (random access iterator, available as `Vector<Type>::Iterator`), so it can be used with regular std algorithms like `std::sort`.
 
 For now you can see the `tests/` to see how they are implemented.
 
