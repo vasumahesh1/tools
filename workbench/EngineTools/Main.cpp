@@ -23,11 +23,13 @@ struct Sample {
   }
 };
 
+void execute() {
+  MonotonicAllocator<16> alloc{4};
 
+  // auto memory = alloc.Allocate(32);
+  //alloc.Deallocate(memory);
 
-int main() {
-  MonotonicAllocator<16> alloc{ 4 };
-  Vector<int> v{ 16, &alloc };
+  Vector<int> v{16, &alloc};
 
   //cout << v.GetSize() << endl;
 
@@ -41,14 +43,28 @@ int main() {
 
   std::sort(v.Begin(), v.End());
 
+  int sum = 0;
+
   for (auto it = v.Begin(); it != v.End(); ++it) {
-    cout << *it << endl;
+
+    const auto data = *it;
+    sum += data;
+    cout << data << endl;
+
   }
+
+  cout << "Sum Bois: " << sum << endl;
 
   //cout << "0: " << v[0] << endl;
   //cout << "1: " << v[1] << endl;
   //cout << "2: " << v[2] << endl;
-  //cout << "3: " << v[3] << endl;
+}
+
+int main() {
+
+  cout << "Testing" << 5 << endl;
+
+  execute();
 
   return 0;
 }

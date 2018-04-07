@@ -311,7 +311,7 @@ namespace EngineTools {
 
     int idx = -1;
 
-    for (UINT itr = 0; itr < mSize; ++itr) {
+    for (auto itr = 0; itr < mSize; ++itr) {
       if (data == *start) {
         idx = itr;
         break;
@@ -331,7 +331,7 @@ namespace EngineTools {
     if (idx >= 0) {
       Type* ptr = start + (idx + 1);
 
-      for (UINT itr = idx + 1; itr < mSize; ++itr) {
+      for (auto itr = idx + 1; itr < mSize; ++itr) {
         *(ptr - 1)  = *ptr;
         ++ptr;
       }

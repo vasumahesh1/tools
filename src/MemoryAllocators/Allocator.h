@@ -46,7 +46,7 @@ namespace EngineTools {
     void* address = static_cast<void*>(object);
     Type* start = object;
 
-    for (UINT itr = 0; itr < count; ++itr) {
+    for (auto itr = 0; itr < count; ++itr) {
       start->~Type();
       ++start;
     }
@@ -72,7 +72,7 @@ namespace EngineTools {
     Type* start   = address;
 
     if (construct) {
-      for (UINT itr = 0; itr < count; ++itr) {
+      for (auto itr = 0; itr < count; ++itr) {
         *start = Type();
         ++start;
       }
