@@ -17,8 +17,10 @@ namespace EngineTools {
     Vector(UINT maxSize, Allocator* alloc);
     ~Vector();
 
-    // Copy and Move Ctors
+    // Copy Ctor
     Vector(const Vector& other);
+
+    // Move Ctor
     Vector(Vector&& other) noexcept;
 
     Vector& operator=(const Vector& other);
@@ -56,8 +58,17 @@ namespace EngineTools {
      */
     void Reserve(UINT maxSize);
 
+    /**
+     * \brief Checks if the container is empty
+     * \return true if empty
+     */
     bool IsEmpty() const;
 
+    /**
+     * \brief Inserts the supplied data at the index
+     * \param idx Target Index
+     * \param data Data to insert
+     */
     void InsertAt(UINT idx, const Type& data);
 
     Type& operator[](UINT idx);
@@ -183,7 +194,17 @@ namespace EngineTools {
       int mIndex{-1};
     };
 
+
+    /**
+     * \brief Returns an Iterator pointing to the beginning of the vector. This is similar to begin() of a std::vector.
+     * \return Iterator
+     */
     Iterator Begin() const;
+
+    /**
+    * \brief Returns an Iterator pointing to the end of the vector. This is similar to end() of a std::vector.
+    * \return Iterator
+    */
     Iterator End() const;
 
 #ifdef TOOLS_TEST
