@@ -38,7 +38,7 @@ namespace EngineTools {
       Node* prev = nullptr;
 
       // Form Initial Links between Nodes
-      for (int i = 0; i < mCount; i++) {
+      for (auto i = 0U; i < mCount; i++) {
         itr->pNext = nullptr;
 
         if (prev != nullptr) {

@@ -11,7 +11,7 @@ namespace EngineTools {
 
     U32 hashValue = seed;
 
-    for (auto itr = 0; itr < numBytes; itr++) {
+    for (auto itr = 0U; itr < numBytes; itr++) {
       hashValue = (ptr[itr] ^ hashValue) * prime;
     }
 

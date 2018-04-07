@@ -26,8 +26,8 @@ namespace EngineTools {
     template <class Type>
     void DeleteObjects(Type* object, UINT count);
 
-    template <class Type>
-    Type* NewObject(bool construct = true);
+    template <class Type, typename... Args>
+    Type* NewObject(bool construct = true, Args ... args);
 
     template <class Type>
     Type* NewObjects(UINT count, bool construct = true);
@@ -44,7 +44,7 @@ namespace EngineTools {
   template <class Type>
   void Allocator::DeleteObjects(Type* object, const UINT count) {
     void* address = static_cast<void*>(object);
-    Type* start = object;
+    Type* start   = object;
 
     for (auto itr = 0; itr < count; ++itr) {
       start->~Type();
@@ -55,12 +55,12 @@ namespace EngineTools {
     Deallocate(address);
   }
 
-  template <class Type>
-  Type* Allocator::NewObject(bool construct) {
+  template <class Type, typename... Args>
+  Type* Allocator::NewObject(bool construct, Args ... args) {
     Type* address = reinterpret_cast<Type*>(Allocate(sizeof(Type)));
 
     if (construct) {
-      *address = Type();
+      new (address) Type(args...);
     }
 
     return address;
@@ -73,7 +73,7 @@ namespace EngineTools {
 
     if (construct) {
       for (auto itr = 0; itr < count; ++itr) {
-        *start = Type();
+        new (start) Type();
         ++start;
       }
     }
