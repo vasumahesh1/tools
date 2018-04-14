@@ -62,7 +62,6 @@ if (WIN32)
     target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/Release/EngineTools.lib")
   endif()
 
-  
 else()
   target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/libEngineTools.a")
 endif()

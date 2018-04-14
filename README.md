@@ -18,6 +18,14 @@ An array of tools that I am making as a part of learning various game engine arc
 
   A Sequential Memory Allocator.
 
+- **Allocator**
+
+  A Base class from which all custom allocators are derived.
+
+- **MemoryBuffer**
+
+  A Base class for creating and handling memory. MemoryBuffer's main role is to give the `Allocator`s a buffer to write data to. It is upto the allocator on how to use the memory buffer, but a segment of it is given to it. Think of this as a allocating a huge chunk of memory, and splitting it into parts for different allocators with different alignment needs to end up using it.
+
 - **FNVHashOperator** or **FNVHash**
 
   A FNV1A Hashing Implementation. A `constexpr` implementation.
