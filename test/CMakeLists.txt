@@ -46,6 +46,7 @@ add_executable(
   Hash_test.cpp
   HashMap_test.cpp
   Vector_test.cpp
+  HeapMemoryBuffer_test.cpp
 )
 
 link_directories("${CMAKE_BINARY_DIR}/src/")
@@ -53,7 +54,15 @@ include_directories("${CMAKE_BINARY_DIR}/src/")
 include_directories("${CMAKE_SOURCE_DIR}/src/")
 
 if (WIN32)
-  target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/Debug/EngineTools.lib")
+  if(CMAKE_BUILD_TYPE MATCHES DEBUG)
+      message("Test - Building for Debug Mode")
+      target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/Debug/EngineTools.lib")
+  elseif(CMAKE_BUILD_TYPE MATCHES RELEASE)
+    message("Test - Building for Release Mode")
+    target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/Release/EngineTools.lib")
+  endif()
+
+  
 else()
   target_link_libraries(EngineToolsTest "${CMAKE_BINARY_DIR}/src/libEngineTools.a")
 endif()

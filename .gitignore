@@ -44,6 +44,7 @@ CTestTestfile.cmake
 
 /build/
 /build_windows/
+/build_*/
 
 
 # Visual Studio

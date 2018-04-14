@@ -29,6 +29,7 @@ namespace EngineTools {
 
   public:
     explicit MonotonicAllocator(SizeType size);
+    MonotonicAllocator(SizeType size, void* resource);
     ~MonotonicAllocator() override;
 
     // Disable Copy & Move
@@ -75,12 +76,19 @@ namespace EngineTools {
     SizeType mSize;
     AddressPtr mMemoryBlock;
     AddressPtr mCurrentPosition;
+    MemoryBuffer* mBuffer{nullptr};
   };
 
   template <SizeType AlignmentSize>
   MonotonicAllocator<AlignmentSize>::MonotonicAllocator(SizeType size)
     : mSize(AlignmentSize * size),
       mMemoryBlock(reinterpret_cast<AddressPtr>(ALIGNED_ALLOC(AlignmentSize, mSize))),
+      mCurrentPosition(mMemoryBlock) {}
+
+  template <SizeType AlignmentSize>
+  MonotonicAllocator<AlignmentSize>::MonotonicAllocator(SizeType size, void* resource)
+    : mSize(AlignmentSize * size),
+      mMemoryBlock(reinterpret_cast<AddressPtr>(resource)),
       mCurrentPosition(mMemoryBlock) {}
 
   template <SizeType AlignmentSize>

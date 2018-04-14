@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -109,6 +109,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(AZURA_TOOLS_INC_PATH);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -117,6 +118,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\MemoryAllocators\Allocator.cpp" />
+    <ClCompile Include="..\..\src\MemoryAllocators\HeapMemoryBuffer.cpp" />
+    <ClCompile Include="..\..\src\MemoryAllocators\MemoryBuffer.cpp" />
     <ClCompile Include="..\..\src\MemoryAllocators\StackAllocator.cpp" />
     <ClCompile Include="..\..\src\Utils\Hash.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -125,6 +128,8 @@
     <ClInclude Include="..\..\src\Containers\HashMap.h" />
     <ClInclude Include="..\..\src\Containers\Vector.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\Allocator.h" />
+    <ClInclude Include="..\..\src\MemoryAllocators\HeapMemoryBuffer.h" />
+    <ClInclude Include="..\..\src\MemoryAllocators\MemoryBuffer.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\MonotonicAllocator.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\PoolAllocator.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\StackAllocator.h" />

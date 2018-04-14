@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ToolsCore.h"
+#include "MemoryBuffer.h"
 
 namespace EngineTools {
   constexpr SizeType DEFAULT_MEMORY_ALIGNMENT = 16;
