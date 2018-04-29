@@ -1,6 +1,7 @@
 #pragma once
 
-//#include <cstring>
+// for memcpy
+#include <cstring>
 
 #include "ToolsCore.h"
 #include "MemoryAllocators/Allocator.h"
