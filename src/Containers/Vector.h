@@ -1,13 +1,14 @@
 #pragma once
 
+//#include <cstring>
+
 #include "ToolsCore.h"
 #include "MemoryAllocators/Allocator.h"
-
-#include <cstring>
+#include "Container.h"
 
 namespace EngineTools {
   template <typename Type>
-  class Vector {
+  class Vector : public Container {
   public:
     Vector() = default;
     explicit Vector(Allocator* alloc);
@@ -264,8 +265,8 @@ namespace EngineTools {
       mBase(other.mBase),
       mBack(other.mBack) {
     other.mAlloc = nullptr;
-    other.mBase  = nullptr;
-    other.mBack  = nullptr;
+    other.mBase = nullptr;
+    other.mBack = nullptr;
   }
 
   template <typename Type>
@@ -274,10 +275,10 @@ namespace EngineTools {
       return *this;
     }
 
-    mSize    = other.mSize;
+    mSize = other.mSize;
     mMaxSize = other.mMaxSize;
-    mAlloc   = other.mAlloc;
-    mBack    = other.mBack;
+    mAlloc = other.mAlloc;
+    mBack = other.mBack;
 
     // Allocate Memory
     mBase = mAlloc->NewObjects<Type>(mMaxSize, false);
@@ -294,14 +295,14 @@ namespace EngineTools {
       return *this;
     }
 
-    mSize    = other.mSize;
+    mSize = other.mSize;
     mMaxSize = other.mMaxSize;
-    mAlloc   = other.mAlloc;
-    mBase    = other.mBase;
-    mBack    = other.mBack;
+    mAlloc = other.mAlloc;
+    mBase = other.mBase;
+    mBack = other.mBack;
 
     other.mAlloc = nullptr;
-    other.mBase  = nullptr;
+    other.mBase = nullptr;
 
     return *this;
   }
@@ -346,14 +347,14 @@ namespace EngineTools {
 
   template <typename Type>
   void Vector<Type>::Remove(const Type& data) {
-    Type* start   = mBase;
+    Type* start = mBase;
     const int idx = Find(data);
 
     if (idx >= 0) {
       Type* ptr = start + (idx + 1);
 
       for (auto itr = idx + 1; itr < mSize; ++itr) {
-        *(ptr - 1)  = *ptr;
+        *(ptr - 1) = *ptr;
         ++ptr;
       }
 
@@ -365,7 +366,7 @@ namespace EngineTools {
   template <typename Type>
   void Vector<Type>::Reserve(UINT maxSize) {
     mMaxSize = maxSize;
-    mBase    = mAlloc->NewObjects<Type>(maxSize, false);
+    mBase = mAlloc->NewObjects<Type>(maxSize, false);
   }
 
   template <typename Type>
@@ -380,7 +381,7 @@ namespace EngineTools {
     Type* ptr = mBack;
 
     for (int i = mSize; i > idx; i--) {
-      *ptr     = *(ptr - 1);
+      *ptr = *(ptr - 1);
       --ptr;
     }
 
