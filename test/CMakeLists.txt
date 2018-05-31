@@ -46,6 +46,7 @@ add_executable(
   Hash_test.cpp
   HashMap_test.cpp
   Vector_test.cpp
+  Array_test.cpp
   HeapMemoryBuffer_test.cpp
 )
 

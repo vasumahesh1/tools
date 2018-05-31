@@ -125,8 +125,10 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\Containers\Array.h" />
     <ClInclude Include="..\..\src\Containers\HashMap.h" />
     <ClInclude Include="..\..\src\Containers\Vector.h" />
+    <ClInclude Include="..\..\src\Containers\ArrayBatch.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\Allocator.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\HeapMemoryBuffer.h" />
     <ClInclude Include="..\..\src\MemoryAllocators\MemoryBuffer.h" />
@@ -138,6 +140,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\ToolsCore.h.in" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\src\CMakeLists.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,7 +8,7 @@ namespace EngineTools {
   class Allocator;
 
   namespace Impl {
-    template <size_t Index, typename... BatchProperties>
+    template <SizeType Index, typename... BatchProperties>
     struct Get;
 
     template <typename First, typename... Rest>
@@ -25,13 +25,13 @@ namespace EngineTools {
   }
 
   template <typename... BatchProperties>
-  class VectorBatch {
+  class ArrayBatch {
 
     template <SizeType Index>
     using Type = typename Impl::Get<Index, BatchProperties...>::Type;
 
   public:
-    VectorBatch(SizeType elements, Allocator* allocator);
+    ArrayBatch(SizeType elements, Allocator* allocator);
 
   private:
     Container* mBatchData[sizeof...(BatchProperties)];
@@ -39,6 +39,6 @@ namespace EngineTools {
   };
 
   template <typename ... BatchProperties>
-  VectorBatch<BatchProperties...>::VectorBatch(const SizeType elements, Allocator* allocator)
+  ArrayBatch<BatchProperties...>::ArrayBatch(const SizeType elements, Allocator* allocator)
     : mElements(elements) {}
 }

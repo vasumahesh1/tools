@@ -32,4 +32,6 @@ add_library(
   "${PROJECT_SOURCE_DIR}/Utils/Hash.cpp"
   "${PROJECT_SOURCE_DIR}/Containers/HashMap.h"
   "${PROJECT_SOURCE_DIR}/Containers/Vector.h"
+  "${PROJECT_SOURCE_DIR}/Containers/Array.h"
+  "${PROJECT_SOURCE_DIR}/Containers/ArrayBatch.h"
 )

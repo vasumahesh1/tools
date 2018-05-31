@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // for memcpy
 #include <cstring>
@@ -9,68 +9,69 @@
 
 namespace EngineTools {
   template <typename Type>
-  class Vector : public Container {
+  class Array : public Container {
   public:
-    Vector() = default;
-    explicit Vector(Allocator* alloc);
+    Array() = default;
+    explicit Array(Allocator* alloc);
 
     // TODO: Enable When NewDeleteAllocator is ready
-    //explicit Vector(UINT maxSize);
-    Vector(UINT maxSize, Allocator* alloc);
-    ~Vector();
+    //explicit Array(UINT maxSize);
+    Array(UINT maxSize, Allocator* alloc);
+
+    ~Array();
 
     // Copy Ctor
-    Vector(const Vector& other);
+    Array(const Array& other);
 
     // Move Ctor
-    Vector(Vector&& other) noexcept;
+    Array(Array&& other) noexcept;
 
-    Vector& operator=(const Vector& other);
-    Vector& operator=(Vector&& other) noexcept;
+    Array& operator=(const Array& other);
+    Array& operator=(Array&& other) noexcept;
 
     /**
-     * \brief Appends data to the end of the vector
-     * \param data Data to push
-     */
+    * \brief Appends data to the end of the array
+    * \param data Data to push
+    */
     void Push(const Type& data);
 
     /**
-     * \brief Removes the last element in the vector array
-     * \return Element that was popped
-     */
+    * \brief Removes the last element in the array array
+    * \return Element that was popped
+    */
     Type Pop();
 
     /**
-     * \brief Searches for the data in the Vector
-     * \param data Data to search for
-     * \return Index if Found, else -1
-     */
+    * \brief Searches for the data in the Array
+    * \param data Data to search for
+    * \return Index if Found, else -1
+    */
     int Find(const Type& data);
 
     /**
-     * \brief Searches for the given data in the vector and removes it
-     * \param data Data to Search for and Remove
-     */
+    * \brief Searches for the given data in the array and removes it
+    * \param data Data to Search for and Remove
+    */
     void Remove(const Type& data);
 
     /**
-     * \brief Reserves a max contiguous block for the vector
-     * Use only when you didn't supply a maxSize in the constructor.
-     * \param maxSize Maxium Possible Size
-     */
+    * \brief Reserves a max contiguous block for the array
+    * Use only when you didn't supply a maxSize in the constructor.
+    * \param maxSize Maxium Possible Size
+    */
     void Reserve(UINT maxSize);
 
     /**
-     * \brief Checks if the container is empty
-     * \return true if empty
-     */
+    * \brief Checks if the container is empty
+    * \return true if empty
+    */
     bool IsEmpty() const;
 
     /**
-     * \brief Inserts the supplied data at the index
-     * \param idx Target Index
-     * \param data Data to insert
-     */
+    * \brief Inserts the supplied data at the index
+    * \param idx Target Index
+    * \param data Data to insert
+    */
     void InsertAt(UINT idx, const Type& data);
 
     Type& operator[](UINT idx);
@@ -86,9 +87,9 @@ namespace EngineTools {
       Iterator(const Iterator& other) = default;
       Iterator& operator=(const Iterator& other) = default;
 
-      Iterator(const Vector* ptr, int index)
+      Iterator(const Array* ptr, int index)
         : mPtr(ptr),
-          mIndex(index) {}
+        mIndex(index) {}
 
       Iterator(Iterator&& other) noexcept = default;
       Iterator& operator=(Iterator&& other) noexcept = default;
@@ -192,19 +193,18 @@ namespace EngineTools {
       }
 
     private:
-      const Vector* mPtr{nullptr};
-      int mIndex{-1};
+      const Array* mPtr{ nullptr };
+      int mIndex{ -1 };
     };
 
-
     /**
-     * \brief Returns an Iterator pointing to the beginning of the vector. This is similar to begin() of a std::vector.
-     * \return Iterator
-     */
+    * \brief Returns an Iterator pointing to the beginning of the array. This is similar to begin() of a std::array.
+    * \return Iterator
+    */
     Iterator Begin() const;
 
     /**
-    * \brief Returns an Iterator pointing to the end of the vector. This is similar to end() of a std::vector.
+    * \brief Returns an Iterator pointing to the end of the array. This is similar to end() of a std::array.
     * \return Iterator
     */
     Iterator End() const;
@@ -215,30 +215,30 @@ namespace EngineTools {
 #endif
 
   private:
-    UINT mSize{0};
-    UINT mMaxSize{0};
-    Allocator* mAlloc{nullptr};
-    Type* mBase{nullptr};
-    Type* mBack{nullptr};
+    UINT mSize{ 0 };
+    UINT mMaxSize{ 0 };
+    Allocator* mAlloc{ nullptr };
+    Type* mBase{ nullptr };
+    Type* mBack{ nullptr };
   };
 
   // TODO: Enable When NewDeleteAllocator is ready
   //template <typename Type>
-  //Vector<Type>::Vector(const UINT maxSize) : mMaxSize(maxSize), mAlloc(alloc), mBase(mAlloc->NewObjects<Type>(maxSize)) {}
+  //Array<Type>::Array(const UINT maxSize) : mMaxSize(maxSize), mAlloc(alloc), mBase(mAlloc->NewObjects<Type>(maxSize)) {}
 
   template <typename Type>
-  Vector<Type>::Vector(Allocator* alloc)
+  Array<Type>::Array(Allocator* alloc)
     : mAlloc(alloc) {}
 
   template <typename Type>
-  Vector<Type>::Vector(const UINT maxSize, Allocator* alloc)
+  Array<Type>::Array(const UINT maxSize, Allocator* alloc)
     : mMaxSize(maxSize),
-      mAlloc(alloc),
-      mBase(mAlloc->NewObjects<Type>(maxSize, false)),
-      mBack(mBase) {}
+    mAlloc(alloc),
+    mBase(mAlloc->NewObjects<Type>(maxSize, false)),
+    mBack(mBase) {}
 
   template <typename Type>
-  Vector<Type>::~Vector() {
+  Array<Type>::~Array() {
     if (mAlloc) {
       mAlloc->DeleteObjects(mBase, mMaxSize);
     }
@@ -246,11 +246,11 @@ namespace EngineTools {
 
   // TODO: error with non trivial types need something similar to typename std::enable_if<!std::is_fundamental<Type>::value>::type
   template <typename Type>
-  Vector<Type>::Vector(const Vector& other)
+  Array<Type>::Array(const Array& other)
     : mSize(other.mSize),
-      mMaxSize(other.mMaxSize),
-      mAlloc(other.mAlloc),
-      mBack(other.mBack) {
+    mMaxSize(other.mMaxSize),
+    mAlloc(other.mAlloc),
+    mBack(other.mBack) {
 
     // Allocate Memory
     mBase = mAlloc->NewObjects<Type>(mMaxSize, false);
@@ -260,12 +260,12 @@ namespace EngineTools {
   }
 
   template <typename Type>
-  Vector<Type>::Vector(Vector&& other) noexcept
+  Array<Type>::Array(Array&& other) noexcept
     : mSize(other.mSize),
-      mMaxSize(other.mMaxSize),
-      mAlloc(other.mAlloc),
-      mBase(other.mBase),
-      mBack(other.mBack) {
+    mMaxSize(other.mMaxSize),
+    mAlloc(other.mAlloc),
+    mBase(other.mBase),
+    mBack(other.mBack) {
     other.mAlloc = nullptr;
     other.mBase = nullptr;
     other.mBack = nullptr;
@@ -273,7 +273,7 @@ namespace EngineTools {
 
   // TODO: error with non trivial types need something similar to typename std::enable_if<!std::is_fundamental<Type>::value>::type
   template <typename Type>
-  Vector<Type>& Vector<Type>::operator=(const Vector& other) {
+  Array<Type>& Array<Type>::operator=(const Array& other) {
     if (this == &other) {
       return *this;
     }
@@ -293,7 +293,7 @@ namespace EngineTools {
   }
 
   template <typename Type>
-  Vector<Type>& Vector<Type>::operator=(Vector&& other) noexcept {
+  Array<Type>& Array<Type>::operator=(Array&& other) noexcept {
     if (this == &other) {
       return *this;
     }
@@ -311,7 +311,7 @@ namespace EngineTools {
   }
 
   template <typename Type>
-  void Vector<Type>::Push(const Type& data) {
+  void Array<Type>::Push(const Type& data) {
     assert(mSize < mMaxSize);
 
     *mBack = data;
@@ -320,7 +320,7 @@ namespace EngineTools {
   }
 
   template <typename Type>
-  Type Vector<Type>::Pop() {
+  Type Array<Type>::Pop() {
     assert(mSize > 0);
 
     Type data = *(mBack - 1);
@@ -331,7 +331,7 @@ namespace EngineTools {
   }
 
   template <typename Type>
-  int Vector<Type>::Find(const Type& data) {
+  int Array<Type>::Find(const Type& data) {
     Type* start = mBase;
 
     int idx = -1;
@@ -349,7 +349,7 @@ namespace EngineTools {
   }
 
   template <typename Type>
-  void Vector<Type>::Remove(const Type& data) {
+  void Array<Type>::Remove(const Type& data) {
     Type* start = mBase;
     const int idx = Find(data);
 
@@ -367,18 +367,18 @@ namespace EngineTools {
   }
 
   template <typename Type>
-  void Vector<Type>::Reserve(UINT maxSize) {
+  void Array<Type>::Reserve(UINT maxSize) {
     mMaxSize = maxSize;
     mBase = mAlloc->NewObjects<Type>(maxSize, false);
   }
 
   template <typename Type>
-  bool Vector<Type>::IsEmpty() const {
+  bool Array<Type>::IsEmpty() const {
     return mSize == 0;
   }
 
   template <typename Type>
-  void Vector<Type>::InsertAt(UINT idx, const Type& data) {
+  void Array<Type>::InsertAt(UINT idx, const Type& data) {
     assert(idx >= 0 && idx <= mSize);
 
     Type* ptr = mBack;
@@ -392,24 +392,24 @@ namespace EngineTools {
   }
 
   template <typename Type>
-  Type& Vector<Type>::operator[](const UINT idx) {
+  Type& Array<Type>::operator[](const UINT idx) {
     assert(idx < mSize);
     return *(mBase + idx);
   }
 
   template <typename Type>
-  Type& Vector<Type>::operator[](const UINT idx) const {
+  Type& Array<Type>::operator[](const UINT idx) const {
     assert(idx < mSize);
     return *(mBase + idx);
   }
 
   template <typename Type>
-  typename Vector<Type>::Iterator Vector<Type>::Begin() const {
+  typename Array<Type>::Iterator Array<Type>::Begin() const {
     return Iterator(this, 0);
   }
 
   template <typename Type>
-  typename Vector<Type>::Iterator Vector<Type>::End() const {
+  typename Array<Type>::Iterator Array<Type>::End() const {
     return Iterator(this, mSize);
   }
 }

@@ -65,6 +65,9 @@
     <ClInclude Include="..\..\src\MemoryAllocators\MemoryBuffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\Containers\VectorBatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\src\ToolsCore.h.in" />
